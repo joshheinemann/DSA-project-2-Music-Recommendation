@@ -17,6 +17,8 @@ private:
 public:
     explicit Dataset(const std::string& filepath);
 
+    Dataset();
+    
     const std::vector<Song>& getSongs() const;
     int size() const;
 };
