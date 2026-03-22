@@ -1,12 +1,14 @@
+//this class will store Song objects
 #pragma once
 #include <string>
+#include <vector>
 
 class Song {
 private:
     //basic song information (identifying the song)
     std::string id;
     std::string name;
-    std::string artist;
+    std::vector<std::string> artists;
     std::string album;
 
     //song features
@@ -26,15 +28,17 @@ private:
 
     int duration_ms;
 
+
+
 public:
     // constructor
-    Song(std::string id, std::string name, std::string artist, std::string album,
+    Song(std::string id, std::string name, std::vector<std::string> artists, std::string album,
          double danceability, double energy, double valence, double tempo,
          double acousticness, double instrumentalness, double loudness,
          double speechiness, double liveness, int key, int mode, int duration_ms);
 
     // getters
     std::string getName() const;
-    std::string getArtist() const;
+    std::vector<std::string> getArtists() const;
 
 };

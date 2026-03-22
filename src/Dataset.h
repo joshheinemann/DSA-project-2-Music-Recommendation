@@ -11,9 +11,8 @@ class Dataset {
 private:
     std::vector<Song> songs;
 
-    std::string cleanField(const std::string& field);
     std::vector<std::string> parseRow(const std::string& line);
-    std::vector<std::string> parsePythonList(const std::string& field);
+    std::vector<std::string> parseList(const std::string& field);
 
 public:
     explicit Dataset(const std::string& filepath);
