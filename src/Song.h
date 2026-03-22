@@ -15,6 +15,7 @@ private:
     double danceability;
     double energy;
     double valence;
+    double tempo;
     double acousticness;
     double instrumentalness;
     double loudness;
@@ -24,8 +25,6 @@ private:
     //more technical features
     int key;
     int mode;
-    double tempo;
-
     int duration_ms;
 
 
@@ -38,7 +37,23 @@ public:
          double speechiness, double liveness, int key, int mode, int duration_ms);
 
     // getters
+    std::string getId() const;
     std::string getName() const;
     std::vector<std::string> getArtists() const;
+    std::string getAlbum() const;
+
+    double getDanceability() const;
+    double getEnergy() const;
+    double getValence() const;
+    double getTempo() const;
+    double getAcousticness() const;
+    double getInstrumentalness() const;
+    double getLoudness() const;
+    double getSpeechiness() const;
+    double getLiveness() const;
+
+    int getKey() const;
+    int getMode() const;
+    int getDurationMs() const;
 
 };

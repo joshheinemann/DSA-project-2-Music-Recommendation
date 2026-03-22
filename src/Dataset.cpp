@@ -7,24 +7,37 @@
 std::vector<std::string> Dataset::parseRow(const std::string& line) {
     std::vector<std::string> fields;
     std::string field;
-    bool inBrackets = false;
+    bool inQuotes = false;
 
-    for (char c : line) {
-        if (c == '[') {
-            inBrackets = true;
-            field += c;
-        } else if (c == ']') {
-            inBrackets = false;
-            field += c;
-        } else if (c == ',' && !inBrackets) {
+    for (size_t i = 0; i < line.size(); i++) {
+        char c = line[i];
+
+        if (c == '"') {
+            if (inQuotes && i + 1 < line.size() && line[i + 1] == '"') {
+                field += '"';
+                i++;
+            } else {
+                inQuotes = !inQuotes;
+            }
+        } 
+        else if (c == ',' && !inQuotes) {
             fields.push_back(field);
             field.clear();
-        } else {
+        } 
+        else {
             field += c;
         }
     }
-    fields.push_back(field);  // last field
+
+    fields.push_back(field);
     return fields;
+}
+
+std::string trimQuotes(const std::string& s) {
+    if (s.size() >= 2 && s.front() == '"' && s.back() == '"') {
+        return s.substr(1, s.size() - 2);
+    }
+    return s;
 }
 
 std::vector<std::string> Dataset::parseList(const std::string& field) {
@@ -67,8 +80,19 @@ Dataset::Dataset(const std::string& filepath) {
 
         try {
             auto f = parseRow(line);
+            for (std::string& field : f) {
+                field = trimQuotes(field);
+            }
             if (f.size() != 24) {
-                throw std::runtime_error("Row does not have exactly 24 columns");
+                std::cerr << "Bad row " << lineNumber
+                        << " got " << f.size() << " columns\n";
+                std::cerr << "RAW: " << line << "\n";
+
+                for (size_t i = 0; i < f.size(); i++) {
+                    std::cerr << i << ": [" << f[i] << "]\n";
+                }
+                std::cerr << "------------------------\n";
+                continue;
             }
 
             songs.emplace_back(
