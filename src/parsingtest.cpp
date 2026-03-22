@@ -41,6 +41,14 @@ int main() {
         std::cout << "Mode: " << s.getMode() << "\n";
         std::cout << "Duration (ms): " << s.getDurationMs() << "\n";
 
+        std::cout << "Features: ";
+        const std::vector<double>& features = s.getFeatures();
+
+        for (double f : features) {
+            std::cout << f << " ";
+        }
+        std::cout << std::endl;
+
         std::cout << "-----------------------------\n";
     }
 

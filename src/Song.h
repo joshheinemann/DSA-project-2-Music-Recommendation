@@ -27,7 +27,7 @@ private:
     int mode;
     int duration_ms;
 
-
+    std::vector<double> features;
 
 public:
     // constructor
@@ -56,4 +56,5 @@ public:
     int getMode() const;
     int getDurationMs() const;
 
+    const std::vector<double>& getFeatures() const;
 };

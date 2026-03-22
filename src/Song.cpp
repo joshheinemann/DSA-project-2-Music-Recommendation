@@ -1,5 +1,10 @@
 #include "Song.h"
 
+double normalize(float x, float min, float max) {
+    if (max == min) return 0.0f;
+    return (x - min) / (max - min);
+}
+
 Song::Song(std::string id, std::string name, std::vector<std::string> artists, std::string album,
            double danceability, double energy, double valence, double tempo,
            double acousticness, double instrumentalness, double loudness,
@@ -8,8 +13,26 @@ Song::Song(std::string id, std::string name, std::vector<std::string> artists, s
       danceability(danceability), energy(energy), valence(valence), tempo(tempo),
       acousticness(acousticness), instrumentalness(instrumentalness),
       loudness(loudness), speechiness(speechiness), liveness(liveness),
-      key(key), mode(mode), duration_ms(duration_ms) {}
+      key(key), mode(mode), duration_ms(duration_ms) 
+{
+        features = {
+            this->danceability,
+            this->energy,
+            this->valence,
+            this->acousticness,
+            this->instrumentalness,
+            this->liveness,
+            this->speechiness,
+            normalize(this->key, 0, 11),
+            normalize(this->loudness, -60, 7),
+            normalize(this->tempo, 0, 250),
+        };
 
+}
+
+const std::vector<double>& Song::getFeatures() const {
+    return features;
+}
 
 std::string Song::getId() const {
     return id;
