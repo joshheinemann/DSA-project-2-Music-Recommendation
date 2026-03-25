@@ -63,7 +63,16 @@ int main(){
     for (size_t i = 0; i < results.size(); i++) {
         std::cout << "Song #" << i + 1 << std::endl;
         std::cout << "Name: " << results[i].second.getName() << std::endl;
-        std::cout << "Artist: " << results[i].second.getArtists() << std::endl;
+        
+        std::cout << "Artists: ";
+        std::vector<std::string> artists = results[i].second.getArtists();
+
+        for(int j = 0; j < artists.size(); j++){
+            std::cout << artists[j];
+            if (j < artists.size() - 1) std::cout << ", ";
+        }
+
+        std::cout << std::endl;
         std::cout << "Distance: " << results[i].first << std::endl;
         std::cout << "------------------------" << std::endl;
     }
