@@ -2,7 +2,17 @@
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
+#include <cctype>
 
+std::string toLower(const std::string& str) {
+    std::string result = str;
+
+    for (char& c : result) {
+        c = std::tolower(static_cast<unsigned char>(c));
+    }
+
+    return result;
+}
 
 std::vector<std::string> Dataset::parseRow(const std::string& line) {
     std::vector<std::string> fields;
@@ -114,6 +124,8 @@ Dataset::Dataset(const std::string& filepath) {
                 static_cast<int>(std::stod(f.at(20)))    // duration_ms
             );
 
+            songmap[toLower(f.at(1))].push_back(songs.size()-1);
+
         } catch (const std::exception& e) {
             std::cerr << "Warning: Skipping malformed row " << lineNumber
                       << " (" << e.what() << ")\n";
@@ -123,3 +135,17 @@ Dataset::Dataset(const std::string& filepath) {
 
 const std::vector<Song>& Dataset::getSongs() const { return songs; }
 int Dataset::size() const { return static_cast<int>(songs.size()); }
+
+//since we are only able to use songs in our dataset, we must check that the song the user inputs is in our dataset.
+
+//if the song the user inputs is found, return the vector of songs with that title. else, return an empty vector
+//because multiple songs can have the same title, we are storing them in a vector
+std::vector<int> Dataset::searchForSong(std::string userinput){
+    auto it = songmap.find(toLower(userinput));
+    if (it != songmap.end()){
+        return it->second;
+    }
+    else{
+        return {};
+    }
+}

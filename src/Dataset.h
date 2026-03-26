@@ -5,20 +5,23 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "Song.h"
 
 class Dataset {
 private:
-    std::vector<Song> songs;
-
-    std::vector<std::string> parseRow(const std::string& line);
-    std::vector<std::string> parseList(const std::string& field);
+    std::vector<Song> songs; //will store all of the songs in our dataset in a vector
+    std::unordered_map<std::string, std::vector<int>> songmap; //will use this for looking to see if a song is in the dataset O(1) avg
+    std::vector<std::string> parseRow(const std::string& line); //used in parsing
+    std::vector<std::string> parseList(const std::string& field); //used in parsing
 
 public:
-    explicit Dataset(const std::string& filepath);
+    explicit Dataset(const std::string& filepath); //constructor (parses)
 
     Dataset();
     
-    const std::vector<Song>& getSongs() const;
+    const std::vector<Song>& getSongs() const; //returns our song vector
     int size() const;
+
+    std::vector<int> searchForSong(std::string userinput); //used when a user inputs a song
 };
