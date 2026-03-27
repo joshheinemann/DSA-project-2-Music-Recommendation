@@ -1,11 +1,11 @@
-#include "Dataset.h"
-#include "Song.h"
 #include <queue>
 #include <utility>
 #include <stdexcept>
 #include <cmath>
 #include <iostream>
 #include <algorithm>
+#include "Song.h"
+#include "Dataset.h"
 
 
 double Distance(const Song& a, const Song& b) {                 //euclidian distance

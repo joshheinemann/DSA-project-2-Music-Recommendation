@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "Dataset.h"
 #include "Song.h"
 

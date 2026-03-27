@@ -14,24 +14,23 @@ int main(){
     string answer;
     vector <int> songData;
     //parsing input
-    bool continue = false;
-    while (continue = false){
+    bool contin = false;
+    while (contin = false){
         cout << "Please enter a song: "<<endl;
         cout << "----------------------" << endl;
         getline(cin, song);
         songData = dataset.searchForSong(song);
-        if(songData != {}){
-          cout<<"Song found!"<<endl;
-        }
-        else{
+        if(!songData.empty()) {
+            cout<<"Song found!"<<endl;
+        }else{
             cout << "Sorry, we couldn't find that song in our dataset..." << endl;
             cout << "----------------------------------------------------" << endl;
         }
         cout << "Would you like to continue? (y/n):"<<endl;
         cout << "-----------------------------------" << endl;
-        getline(cin; answer);
+        getline(cin, answer);
         if(answer == "n"){
-            continue = true;
+            contin == true;
         }
     }
     cout << "Thank you for using SpotiFind! " << endl;

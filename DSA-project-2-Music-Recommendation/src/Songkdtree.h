@@ -21,7 +21,8 @@ private:
         Node(const array<double, K>& pt) : point(pt), left(nullptr), right(nullptr) {}
     };
 
-    Node* root; // Root of the KDTree
+    Node* root = nullptr; // Root of the KDTree
+
 
     // Recursive function to insert a point into the KDTree
     Node* insertRecursive(Node* node, const array<double, K>& point, int depth) {
@@ -57,25 +58,6 @@ private:
         else
             return searchRecursive(node->right, point, depth + 1);
     }
-
-    // Recursive function to print the KDTree
-    void printRecursive(Node* node, int depth) const {
-        // Base case: If node is null, return
-        if (node == nullptr) return;
-
-        // Print current node with indentation based on depth
-        for (int i = 0; i < depth; i++) cout << "  ";
-        cout << "(";
-        for (size_t i = 0; i < K; i++) {
-            cout << node->point[i];
-            if (i < K - 1) cout << ", ";
-        }
-        cout << ")" << endl;
-
-        // Recursively print left and right children
-        printRecursive(node->left, depth + 1);
-        printRecursive(node->right, depth + 1);
-    }
     //Recursive memory cleanup
     void freeTree(Node* node) {
         if (!node) return;
@@ -99,11 +81,6 @@ public:
     // Public function to search for a point in the KDTree
     bool search(const array<double, K>& point) const {
         return searchRecursive(root, point, 0);
-    }
-
-    // Public function to print the KDTree
-    void print() const {
-        printRecursive(root, 0);
     }
 };
 

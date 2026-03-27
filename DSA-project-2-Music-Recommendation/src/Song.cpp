@@ -1,3 +1,4 @@
+#include <string>
 #include "Song.h"
 
 double normalize(float x, float min, float max) {
