@@ -26,7 +26,7 @@ double Distance(const Song& a, const Song& b) {                 //euclidian dist
     return std::sqrt(sum);
 }
 
-int main(){
+std::vector<std::pair<double, Song>> getFiveClosestKNN(){
     Dataset dataset("data/tracks_features.csv"); //parse data from kaggle and create our dataset class
 
     const std::vector<Song>& songs = dataset.getSongs(); //get the vector of all of the songs
@@ -60,21 +60,23 @@ int main(){
 
     std::reverse(results.begin(), results.end());
 
-    for (size_t i = 0; i < results.size(); i++) {
-        std::cout << "Song #" << i + 1 << std::endl;
-        std::cout << "Name: " << results[i].second.getName() << std::endl;
+    // for (size_t i = 0; i < results.size(); i++) {
+    //     std::cout << "Song #" << i + 1 << std::endl;
+    //     std::cout << "Name: " << results[i].second.getName() << std::endl;
         
-        std::cout << "Artists: ";
-        std::vector<std::string> artists = results[i].second.getArtists();
+    //     std::cout << "Artists: ";
+    //     std::vector<std::string> artists = results[i].second.getArtists();
 
-        for(int j = 0; j < artists.size(); j++){
-            std::cout << artists[j];
-            if (j < artists.size() - 1) std::cout << ", ";
-        }
+    //     for(int j = 0; j < artists.size(); j++){
+    //         std::cout << artists[j];
+    //         if (j < artists.size() - 1) std::cout << ", ";
+    //     }
 
-        std::cout << std::endl;
-        std::cout << "Distance: " << results[i].first << std::endl;
-        std::cout << "------------------------" << std::endl;
-    }
+    //     std::cout << std::endl;
+    //     std::cout << "Distance: " << results[i].first << std::endl;
+    //     std::cout << "------------------------" << std::endl;
+    // }
+
+    return results;
     
 }
