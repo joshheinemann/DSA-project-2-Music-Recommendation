@@ -23,5 +23,5 @@ public:
     const std::vector<Song>& getSongs() const; //returns our song vector
     int size() const;
 
-    std::vector<int> searchForSong(std::string userinput); //used when a user inputs a song
+    const std::vector<int> searchForSong(const std::string& userinput) const; //used when a user inputs a song
 };
