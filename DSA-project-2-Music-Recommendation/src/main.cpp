@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <string>
 #include <sstream>
 #include "Dataset.h"
 
@@ -15,7 +16,7 @@ int main(){
     vector <int> songData;
     //parsing input
     bool contin = false;
-    while (contin = false){
+    while (contin == false){
         cout << "Please enter a song: "<<endl;
         cout << "----------------------" << endl;
         getline(cin, song);
@@ -25,12 +26,13 @@ int main(){
         }else{
             cout << "Sorry, we couldn't find that song in our dataset..." << endl;
             cout << "----------------------------------------------------" << endl;
+            cout<<endl;
         }
         cout << "Would you like to continue? (y/n):"<<endl;
         cout << "-----------------------------------" << endl;
         getline(cin, answer);
         if(answer == "n"){
-            contin == true;
+            contin = true;
         }
     }
     cout << "Thank you for using SpotiFind! " << endl;
