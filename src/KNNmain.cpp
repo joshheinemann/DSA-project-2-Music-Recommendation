@@ -91,11 +91,21 @@ void printRecommendations(const Song& userPicked, const std::vector<std::pair<do
         std::cout << "Artists: ";
         printArtists(results[i].second.getArtists());
         std::cout << std::endl;
-
-        std::cout << "Distance: " << results[i].first << std::endl;
         std::cout << "------------------------" << std::endl;
+        std::cout << std::endl;
     }
 }
+
+void top(const std::vector<std::pair<double, Song>>& results){
+  std::cout << "SpotiFind's top recommedned song: " << std::endl;
+    std::cout << "Name: " << results[0].second.getName() << std::endl;
+
+    std::cout << "Artists: ";
+    printArtists(results[0].second.getArtists());
+    std::cout << std::endl;
+    std::cout << "------------------------" << std::endl;
+    std::cout << std::endl;
+  }
 
 bool askToContinue() {
     while (true) {
@@ -117,16 +127,79 @@ bool askToContinue() {
         std::cout << "Invalid input. Please enter y or n." << std::endl;
     }
 }
+bool askToViewData() {
+    while (true) {
+        std::string answer;
+
+        std::cout << std::endl;
+        std::cout << "Would you like to view our recommednded songs' data? (y/n)" << std::endl;
+        std::cout << "----------------------------------------------------" << std::endl;
+        std::getline(std::cin, answer);
+
+        if (answer == "y" || answer == "Y") {
+            return true;
+        }
+
+        if (answer == "n" || answer == "N") {
+            return false;
+        }
+
+        std::cout << "Invalid input. Please enter y or n." << std::endl;
+    }
+}
+void viewData(const std::vector<std::pair<double, Song>>& results){
+    for (size_t i = 0; i < results.size(); i++) {
+        std::cout << "Song #" << i + 1 << std::endl;
+        std::cout << "Name: " << results[i].second.getName() << std::endl;
+
+        std::cout << "Artists: ";
+        printArtists(results[i].second.getArtists());
+        std::cout << std::endl;
+
+        std::cout << "Album: " << results[i].second.getAlbum() << std::endl;
+
+        std::cout << std::endl;
+
+        std::cout << "Key: " << results[i].second.getKey() << std::endl;
+
+        std::cout << "Mode: " << results[i].second.getMode() << std::endl;
+
+        std::cout << "Duration (ms): " << results[i].second.getDurationMs() << std::endl;
+
+        std::cout << "Danceability: " << results[i].second.getDanceability() << std::endl;
+
+
+        std::cout << "Energy: " << results[i].second.getEnergy() << std::endl;
+
+        std::cout << "Valence: " << results[i].second.getValence() << std::endl;
+
+        std::cout << "Tempo: " << results[i].second.getTempo() << std::endl;
+
+        std::cout << "Acousticness: " << results[i].second.getAcousticness() << std::endl;
+
+        std::cout << "Instrumentalness: " << results[i].second.getInstrumentalness() << std::endl;
+
+        std::cout << "Loudness: " << results[i].second.getLoudness() << std::endl;
+
+        std::cout << "Speechiness: " << results[i].second.getSpeechiness() << std::endl;
+
+        std::cout << "Liveness: " << results[i].second.getLiveness() << std::endl;
+        std::cout << "------------------------" << std::endl;
+        std::cout << std::endl;
+    }
+}
 
 int main() {
     Dataset dataset("data/tracks_features.csv");
-
+    std::cout<<std::endl;
     std::cout << "Welcome to SpotiFind, the music recommendation program!" << std::endl;
     std::cout << "------------------------------------------------------" << std::endl;
 
     const std::vector<Song>& songs = dataset.getSongs();
 
+
     bool keepRunning = true;
+    bool view = false;
 
     while (keepRunning) {
         int chosenIndex = promptUserForSong(dataset, songs);
@@ -135,7 +208,16 @@ int main() {
         std::vector<std::pair<double, Song>> results = getFiveClosestKNN(userPicked, songs);
         printRecommendations(userPicked, results);
 
+        top(results);
+
+        view = askToViewData();
+
+        if (view) {
+          viewData(results);
+        }
+
         keepRunning = askToContinue();
+        std::cout<<std::endl;
     }
 
     std::cout << std::endl;

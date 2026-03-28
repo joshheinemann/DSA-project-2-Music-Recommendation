@@ -62,25 +62,6 @@ private:
         else
             return searchRecursive(node->right, point, depth + 1);
     }
-
-    // Recursive function to print the KDTree
-    void printRecursive(Node* node, int depth) const {
-        // Base case: If node is null, return
-        if (node == nullptr) return;
-
-        // Print current node with indentation based on depth
-        for (int i = 0; i < depth; i++) cout << "  ";
-        cout << "(";
-        for (size_t i = 0; i < K; i++) {
-            cout << node->point[i];
-            if (i < K - 1) cout << ", ";
-        }
-        cout << ")" << endl;
-
-        // Recursively print left and right children
-        printRecursive(node->left, depth + 1);
-        printRecursive(node->right, depth + 1);
-    }
     //Recursive memory cleanup
     void freeTree(Node* node) {
         if (!node) return;
@@ -123,10 +104,10 @@ private:
         double dist = distanceFormula(query, node->point); //get distance of current point
         
         //update queue (current 5 closest)
-        if(best.size() < NUM_SONGS_OUTPUT){
+        if(best.size() < NUM_SONGS_OUTPUT && dist!=0.0){
             best.push({dist, node->songIndex});
         }
-        else if (dist < best.top().first) {
+        else if (dist < best.top().first && dist!=0.0) {
             best.pop();
             best.push({dist, node->songIndex});
         }
@@ -158,11 +139,6 @@ public:
     // Public function to search for a point in the KDTree
     bool search(const array<double, K>& point) const {
         return searchRecursive(root, point, 0);
-    }
-
-    // Public function to print the KDTree
-    void print() const {
-        printRecursive(root, 0);
     }
 
     vector<pair<double, int>> findKNearest(const array<double, K>& query, int k) const {

@@ -104,7 +104,7 @@ void printRecommendations(const Song& userPicked,
                           const std::vector<std::pair<double, int>>& results) {
 
     std::cout << std::endl;
-    std::cout << "User picked: " 
+    std::cout << "User picked: "
               << userPicked.getName() << std::endl;
     std::cout << std::endl;
 
@@ -113,19 +113,27 @@ void printRecommendations(const Song& userPicked,
 
         std::cout << "Song #" << i + 1 << std::endl;
 
-        std::cout << "Name: " 
+        std::cout << "Name: "
                   << songs[songIndex].getName() << std::endl;
 
         std::cout << "Artists: ";
         printArtists(songs[songIndex].getArtists());
         std::cout << std::endl;
 
-        std::cout << "Distance: " 
-                  << results[i].first << std::endl;
-
         std::cout << "------------------------" << std::endl;
     }
 }
+
+void top(const std::vector<Song>& songs, const std::vector<std::pair<double, int>>& results){
+  std::cout << "SpotiFind's top recommedned song: " << std::endl;
+    std::cout << "Name: " << songs[results[0].second].getName() << std::endl;
+
+    std::cout << "Artists: ";
+    printArtists(songs[results[0].second].getArtists());
+    std::cout << std::endl;
+    std::cout << "------------------------" << std::endl;
+    std::cout << std::endl;
+  }
 
 bool askToContinue() {
     while (true) {
@@ -147,6 +155,68 @@ bool askToContinue() {
         std::cout << "Invalid input. Please enter y or n." << std::endl;
     }
 }
+bool askToViewData() {
+    while (true) {
+        std::string answer;
+
+        std::cout << std::endl;
+        std::cout << "Would you like to view our recommednded songs' data? (y/n)" << std::endl;
+        std::cout << "----------------------------------------------------" << std::endl;
+        std::getline(std::cin, answer);
+
+        if (answer == "y" || answer == "Y") {
+            return true;
+        }
+
+        if (answer == "n" || answer == "N") {
+            return false;
+        }
+
+        std::cout << "Invalid input. Please enter y or n." << std::endl;
+    }
+}
+void viewData(const std::vector<Song>& songs, const std::vector<std::pair<double, int>>& results){
+    for (size_t i = 0; i < results.size(); i++) {
+        int songIndex = results[i].second;
+        std::cout << "Song #" << i + 1 << std::endl;
+        std::cout << "Name: " << songs[songIndex].getName() << std::endl;
+
+        std::cout << "Artists: ";
+        printArtists(songs[songIndex].getArtists());
+        std::cout << std::endl;
+
+        std::cout << "Album: " << songs[songIndex].getAlbum() << std::endl;
+
+        std::cout << std::endl;
+
+        std::cout << "Key: " << songs[songIndex].getKey() << std::endl;
+
+        std::cout << "Mode: " << songs[songIndex].getMode() << std::endl;
+
+        std::cout << "Duration (ms): " << songs[songIndex].getDurationMs() << std::endl;
+
+        std::cout << "Danceability: " << songs[songIndex].getDanceability() << std::endl;
+
+
+        std::cout << "Energy: " << songs[songIndex].getEnergy() << std::endl;
+
+        std::cout << "Valence: " << songs[songIndex].getValence() << std::endl;
+
+        std::cout << "Tempo: " << songs[songIndex].getTempo() << std::endl;
+
+        std::cout << "Acousticness: " << songs[songIndex].getAcousticness() << std::endl;
+
+        std::cout << "Instrumentalness: " << songs[songIndex].getInstrumentalness() << std::endl;
+
+        std::cout << "Loudness: " << songs[songIndex].getLoudness() << std::endl;
+
+        std::cout << "Speechiness: " << songs[songIndex].getSpeechiness() << std::endl;
+
+        std::cout << "Liveness: " << songs[songIndex].getLiveness() << std::endl;
+        std::cout << "------------------------" << std::endl;
+        std::cout << std::endl;
+    }
+}
 
 int main() {
     Dataset dataset("data/tracks_features.csv");
@@ -163,6 +233,7 @@ int main() {
     }
 
     bool keepRunning = true;
+    bool view = false;
 
     while (keepRunning) {
         int chosenIndex = promptUserForSong(dataset, songs);
@@ -173,6 +244,14 @@ int main() {
         vector<pair<double, int>> results = tree.findKNearest(queryPoint, 5);
         
         printRecommendations(userPicked, songs, results);
+
+        top(songs, results);
+
+        view = askToViewData();
+
+        if (view) {
+            viewData(songs, results);
+        }
 
         keepRunning = askToContinue();
     }
